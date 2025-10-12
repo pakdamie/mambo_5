@@ -1,29 +1,33 @@
 library(stringr)
 
-wrangle_ss_names <- function(path_file){
-
-name_data_list = NULL 
-
-for (file in 1:length(file_path)){
-    full_path_file = paste0("names/",path_file[file])
-     
-     name_year_dat = data.frame(read.delim(full_path_file,
-        header = FALSE,sep = ","))
-
-    if (!is.character(a[[1]])) {
+wrangle_ss_names <- function(path_file) {
+  
+  name_data_list <- list()
+  file_names <- list.files(path_name, pattern = ".*txt")
+  
+  for (file in seq_along(file_names)) {
+    full_path_file <- file.path(path_file, file_names[file])
+    
+    name_year_data <- read.delim(full_path_file, header = FALSE, sep = ",", stringsAsFactors = FALSE)
+    
+    # Sanity checks
+    if (!is.character(name_year_data[[1]])) {
       stop("The first column should be names (character)")
     }
-    if (!is.character(a[[2]]) || length(unique(a[[2]])) != 2) {
+    if (!is.character(name_year_data[[2]]) || length(unique(name_year_data[[2]])) != 2) {
       stop("The second column should be sex with two levels (e.g. M/F)")
     }
-    if (!is.numeric(a[[3]])) {
+    if (!is.numeric(name_year_data[[3]])) {
       stop("The third column should be occurrence data (numeric)")
     }
-
-    colnames(name_year_data) <- c("Name", "Sex", "Occurence")
-    name_year_data$year <-  str_extract(file_path[file], "\\d{4}") #get the year
-    name_year_data$proportional_year <- round(name_year_data$Occurence/sum(name_year_data$Occurence),5)
-    name_data_list[[file]] = name_year_data
-}
-return(do.call(rbind, name_year_data))
+    
+    colnames(name_year_data) <- c("Name", "Sex", "Occurrence")
+    
+    name_year_data$year <- as.numeric(str_extract(file_names[file], "\\d{4}"))
+    name_year_data$proportional_year <- round(name_year_data$Occurrence / sum(name_year_data$Occurrence), 5)
+    
+    name_data_list[[file]] <- name_year_data
+  }
+  
+  return(do.call(rbind, name_data_list))
 }
