@@ -1,6 +1,5 @@
 library(stringr)
 
-
 wrangle_ss_names <- function(path_file){
 
 name_data_list = NULL 
