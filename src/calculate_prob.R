@@ -49,7 +49,7 @@ calculate_likelihood <- function(name_df, release_years, ages) {
 #'
 #' @export
 #' @examples
-calculate_posterior <- function(df, release_years = 1980:2005, ages = 21:30) {
+calculate_posterior <- function(df, release_years = 1980:2010, ages = 21:30) {
   likelihood <- calculate_likelihood(
     df,
     release_years = release_years,
