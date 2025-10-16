@@ -1,16 +1,27 @@
 library(stringr)
 
-wrangle_ss_names <- function(path_file) {
+#' Wrangle social security names
+#'
+#' The Social Security provides data in multiple text files for each year, this
+#' script wrangles them into one csv file to then be used for further analysis.
+#' However, I discovered that Hadley Wickham's {babynames} provides the same data.
+#' 
+#' @param path_file ("character") The path file to the data ("")
+#'
+#' @returns ("data.frame") Data.frame with "Name", "Sex", "Occurence", and "Year"
+#'
+#' @export
+#' @examples
+wrangle_ss_names <- function(path_file = `\names`) {
   
   name_data_list <- list()
-  file_names <- list.files(path_name, pattern = ".*txt")
+  file_names <- list.files(path_file, pattern = ".*txt")
   
   for (file in seq_along(file_names)) {
     full_path_file <- file.path(path_file, file_names[file])
-    
     name_year_data <- read.delim(full_path_file, header = FALSE, sep = ",", stringsAsFactors = FALSE)
     
-    # Sanity checks
+    # CHECKS HERE:
     if (!is.character(name_year_data[[1]])) {
       stop("The first column should be names (character)")
     }

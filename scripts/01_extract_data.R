@@ -13,5 +13,8 @@ full_name_df <- wrangle_ss_names("names/")
 write.csv(full_name_df, "output/full_name_df.csv")
 
 ###Mambo 5 name df
-mambo_5_name_df <- subset(full_name_df, full_name_df$Name %in% names_Mambo_5)
+mambo_5_name_df <- subset(full_name_df, full_name_df$Name %in% names_Mambo_5 &
+  full_name_df$Sex == "F")
+
+mambo_5_name_df$Sex[mambo_5_name_df$Sex == "F"] <- "Female"
 write.csv(mambo_5_name_df , "output/mambo_5_name_df.csv")
