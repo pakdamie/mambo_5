@@ -1,0 +1,55 @@
+---
+title: "Visualization of Mambo #5 names"
+format: html
+---
+
+```{r}
+library(ggplot2)
+mambo_5_df <- read.csv("output/mambo_5_name_df.csv")
+```
+
+## Raw overview of the occurence of names across time
+
+```{r}
+ggplot(mambo_5_df, aes(x = year, y = Occurrence)) + 
+    geom_bar(stat = 'identity',  width = 1) + facet_wrap(~Name, scales = "free_y") + 
+    theme_classic() 
+```
+
+Note that I let the y-scale be different for each of the names because I'm more interested in the general question of whether these names are more specific to a decade. For example, Jessica seems to be a name more popular in the 1970s, but then you have names like Mary and Rita that were more popular from the 1920s to the 1960s, with sharper declines in the 1970s. Even just from looking at these graphs, and assuming that the women in the clubs are around 20–40 years old—with the view that most women in clubs are around 25—I can maybe gauge that Mambo No. 5 must have been released around 1990–2000.
+
+Let's into it a little bit more by seeing for each name, when they had the peak occurence.
+
+## When did each name peak?
+
+```{r}
+name_peak_years_df <- do.call(rbind, 
+  by(mambo_5_df, mambo_5_df$Name, 
+     function(x) x[which.max(x$Occurrence), ]
+  )
+)
+```
+
+
+```{r}
+ggplot(name_peak_years_df , aes(x = Name, y = year)) + geom_point()+ 
+    geom_hline(yintercept = seq(1900,2020,10), alpha = 0.05) + 
+    xlab("Name") + 
+    ylab("Year of max. occurence") + 
+    theme_classic()
+```
+
+```{r}
+mean(name_peak_years_df$year)
+#Without Mary
+mean(subset(name_peak_years_df, name_peak_years_df$Name != "Mary")$year)
+```
+
+The average peak popularity of the name is 1962, but if we exclude Mary (with a popualrity that peaked in 1925), the avererage peak popularity goes up to 1967. 
+
+```{r}
+summary(name_peak_years_df$year)
+```
+
+Hm. If I'm assuming that the women are around 20-40 years old. Then this could mean that the song should have been released 1982-2002.
+

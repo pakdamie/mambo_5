@@ -1,6 +1,5 @@
 #' Calculate the likelihood given the release years and the assumed ages
 #'
-#'
 #' @param df (data.frame) The girl name popularity data.frame
 #' @param release_years (vector) our belief of when the songs were released (1980-2005)
 #' @param ages (vector) assumption of the women's ages (default: 21-40)
@@ -10,6 +9,7 @@
 #' @export
 #' @examples
 calculate_likelihood <- function(name_df, release_years, ages) {
+  
   results <- numeric(length(release_years))
   min_age = min(ages)
   max_age = max(ages)
@@ -49,7 +49,7 @@ calculate_likelihood <- function(name_df, release_years, ages) {
 #'
 #' @export
 #' @examples
-calculate_posterior <- function(df, release_years = 1980:2010, ages = 21:30) {
+calculate_posterior <- function(df, release_years = 1980:2010, ages = 18:35) {
   likelihood <- calculate_likelihood(
     df,
     release_years = release_years,
@@ -59,7 +59,7 @@ calculate_posterior <- function(df, release_years = 1980:2010, ages = 21:30) {
   posterior = likelihood * prior_prob
 
   return(cbind.data.frame(
-    releaes_years = release_years,
+    release_years = release_years,
     posterior_distribution = posterior
   ))
 }
