@@ -11,20 +11,20 @@
 calculate_likelihood <- function(name_df, release_years, ages) {
   
   results <- numeric(length(release_years))
-  min_age = min(ages)
-  max_age = max(ages)
+  min_age <- min(ages)
+  max_age <-  max(ages)
 
   for (year in seq_along(release_years)) {
     #Given our assumption of the year when the song was released, what
     # are the possible years we should be looking at based on our range of ages?
     year_interest = release_years[year]
     birth_years = (year_interest - max_age):(year_interest - min_age)
-    names_df_interest <- name_df[name_df$year %in% birth_years, , drop = FALSE]
+    names_df_interest <- name_df[name_df$Year %in% birth_years, , drop = FALSE]
 
     # Compute joint probabilities where group size == 9
     joint_probs <- tapply(
-      names_df_interest$prop,
-      names_df_interest$year,
+      names_df_interest$Prop,
+      names_df_interest$Year,
       function(x) {
         if (length(x) == 9) prod(x) else NA
       }
@@ -49,7 +49,8 @@ calculate_likelihood <- function(name_df, release_years, ages) {
 #'
 #' @export
 #' @examples
-calculate_posterior <- function(df, release_years = 1980:2010, ages = 18:35) {
+calculate_posterior <- function(df, release_years = 1970:2020, ages = 18:35) {
+  
   likelihood <- calculate_likelihood(
     df,
     release_years = release_years,
