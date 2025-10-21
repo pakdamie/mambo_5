@@ -2,6 +2,9 @@ library(reshape2)
 library(ggplot2)
 library(viridis)
 
+###used for making a joint likelihood grid conditioned on 
+###age of the women as well as the range of release years.
+
 release_years <- 1980:2010
 ages <- 18:35
 mambo_5_name_df <- read.csv("output/mambo_5_name_df.csv")

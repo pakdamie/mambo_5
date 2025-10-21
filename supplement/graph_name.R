@@ -1,4 +1,5 @@
-###used for making individual occurence plots for each of the name
+###used for making individual occurence plots for each of the name.
+### Primary use is for putting it in the video.
 
 library(ggplot2)
 

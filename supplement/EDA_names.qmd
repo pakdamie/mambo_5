@@ -30,7 +30,6 @@ name_peak_years_df <- do.call(rbind,
 )
 ```
 
-
 ```{r}
 ggplot(name_peak_years_df , aes(x = Name, y = year)) + geom_point()+ 
     geom_hline(yintercept = seq(1900,2020,10), alpha = 0.05) + 
