@@ -1,16 +1,20 @@
 #' Calculate the credible interval
 #'
+#' 
 #' @param results ("data.frame") Output from calculate_posterior() with columns: release_year, posterior
-#' @param alpha (numeric) Significance level (default: 0.05 for 95% CI)
+#' @param alpha ("numeric") Significance level (default: 0.05 for 95% CI)
 #'
 #' @returns A list with lower, upper, and width of the interval
 #'
 #' @export
 calculate_credible_interval <- function(results, alpha = 0.05) {
+  
+  #The results should already be ordered, but just in case:
   results <- results[order(results$release_years), ]
 
-  # Calculate cumulative distribution
+  ###Cumulatively sum up the normalized probability density
   results$cumulative <- cumsum(results$normalized)
+
 
   lower_bound <- results$release_year[which(results$cumulative >= alpha / 2)[1]]
 

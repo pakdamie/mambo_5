@@ -24,6 +24,7 @@ calculate_likelihood <- function(name_df, release_years, ages) {
 
     # Compute joint probabilities where group size == 9 (if a name is missing, 
     #it would automatically be 0)
+
     joint_probs <- tapply(
       names_df_interest$Prop,
       names_df_interest$Year,
@@ -31,7 +32,8 @@ calculate_likelihood <- function(name_df, release_years, ages) {
         if (length(x) == 9) prod(x) else 0
       }
     )
-
+    ### You marginalize by age- so you would only get the likelihood 
+    ### conditioned on the yearly releases
     results[year] <- mean(joint_probs, na.rm = TRUE)
   }
 
